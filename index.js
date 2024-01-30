@@ -12,9 +12,7 @@ const server = app.listen(process.env.PORT, () => {
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
 app.use(cors());
-app.set('view engine', 'pug');
-app.set('/views', express.static(path.join(dirName, 'views')));
 
 app.get('/', (req, res) => {
-  res.render('template.pug');
+  res.send('coucou');
 });
