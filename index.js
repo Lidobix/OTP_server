@@ -3,7 +3,11 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { v4 as uuidv4 } from 'uuid';
 import { DataBase } from './modules/dataBase.js';
-import { createNewDbEnrtry, validateRegEx } from './modules/datas.js';
+import {
+  createNewDbEnrtry,
+  createPassword,
+  validateRegEx,
+} from './modules/datas.js';
 dotenv.config();
 const dataBase = new DataBase();
 
@@ -18,7 +22,6 @@ app.use(express.urlencoded());
 
 app.post('/getId', (req, res) => {
   console.log('getID');
-  console.log(req.body.phoneNumber);
   let response;
 
   const isValidNumberSrv = validateRegEx(req.body);
