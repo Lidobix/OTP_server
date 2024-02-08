@@ -1,4 +1,4 @@
-import Jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { env } from '../env.js';
 
 const regEx = {
@@ -7,7 +7,6 @@ const regEx = {
 };
 
 const PWD_LENGTH = 6;
-const DELAY_TOKEN_SECONDS = 30;
 
 export const validateRegEx = (data) => {
   for (const [key, value] of Object.entries(data)) {
@@ -19,13 +18,11 @@ export const validateRegEx = (data) => {
   return false;
 };
 
-export const createNewDbEnrtry = (phoneNumber) => {};
-
 export const createPassword = () => {
-  let index = 0;
+  let index = 1;
   let password = [];
-  while (index < PWD_LENGTH) {
-    const max = Math.floor(10);
+  while (index <= PWD_LENGTH) {
+    const max = Math.floor(9);
     const min = Math.ceil(0);
     password.push(Math.floor(Math.random() * (max - min + 1)) + min);
     index++;
@@ -34,16 +31,23 @@ export const createPassword = () => {
   return password.join('').toString();
 };
 
-export const createToken = (phoneNumber, password) => {
-  // console.log(phoneNumber);
-  console.log(password);
-  // console.log(Math.floor(Date.now() / 1000) + DELAY_TOKEN_SECONDS);
-  return Jwt.sign(
+export const createToken = (password, expiration) => {
+  const token = jwt.sign(
     {
-      exp: Math.floor(Date.now() / 1000) + DELAY_TOKEN_SECONDS,
       password: password,
-      phoneNumber: phoneNumber,
     },
-    env.secret
+    env.secret,
+    { expiresIn: expiration }
   );
+
+  return token;
+};
+
+export const validToken = ({ token, password }) => {
+  try {
+    const decodedToken = jwt.verify(token, env.secret);
+    return decodedToken.password === password;
+  } catch {
+    return false;
+  }
 };
