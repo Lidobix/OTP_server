@@ -22,7 +22,7 @@ const DELAY_TOKEN_SECONDS = 120;
 
 app.post('/getId', (req, res) => {
   let response;
-  const password = createPassword();
+  const password = createPassword(req.body.PWD_LENGTH);
   console.log(password);
   const token = createToken(password, DELAY_TOKEN_SECONDS);
   const isValidNumberSrv = validateRegEx(req.body);

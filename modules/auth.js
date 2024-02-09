@@ -6,8 +6,6 @@ const regEx = {
   password: '^\\d{6}$',
 };
 
-const PWD_LENGTH = 6;
-
 export const validateRegEx = (data) => {
   for (const [key, value] of Object.entries(data)) {
     if (regEx[key]) {
@@ -18,10 +16,10 @@ export const validateRegEx = (data) => {
   return false;
 };
 
-export const createPassword = () => {
+export const createPassword = (pwdLength) => {
   let index = 1;
   let password = [];
-  while (index <= PWD_LENGTH) {
+  while (index <= pwdLength) {
     const max = Math.floor(9);
     const min = Math.ceil(0);
     password.push(Math.floor(Math.random() * (max - min + 1)) + min);
